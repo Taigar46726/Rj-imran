@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AiFomo Coin Tap Game</title>
+    <style>
+        body {
+            background-color: #1a1a2e;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            user-select: none;
+        }
+        h1 {
+            color: #f39c12;
+            margin-bottom: 10px;
+        }
+        .score-board {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .coin-btn {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #f1c40f, #e67e22);
+            border: 8px solid #f39c12;
+            box-shadow: 0 0 20px rgba(241, 196, 15, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 70px;
+            cursor: pointer;
+            transition: transform 0.1s ease;
+        }
+        .coin-btn:active {
+            transform: scale(0.92);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>AiFomo Coin</h1>
+    <div class="score-board">Coins: <span id="score">0</span></div>
+
+    <div class="coin-btn" onclick="tapCoin()">
+        🪙
+    </div>
+
+    <script>
+        let count = localStorage.getItem('aifomo_coins') ? parseInt(localStorage.getItem('aifomo_coins')) : 0;
+        document.getElementById('score').innerText = count;
+
+        function tapCoin() {
+            count++;
+            document.getElementById('score').innerText = count;
+            localStorage.setItem('aifomo_coins', count);
+        }
+    </script>
+
+</body>
+</html>
