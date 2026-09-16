@@ -33,7 +33,7 @@
             letter-spacing: 1px;
         }
         .balance-card {
-            font-size: 40px;
+            font-size: 42px;
             font-weight: 800;
             color: #ffd700;
             margin-top: 5px;
@@ -47,20 +47,22 @@
             justify-content: center;
             flex: 1;
         }
+        
+        /* Inline SVG Coin Style */
         .coin-btn {
             width: 220px;
             height: 220px;
             border-radius: 50%;
             cursor: pointer;
             transition: transform 0.05s ease-in-out;
-            box-shadow: 0 0 35px rgba(243, 156, 18, 0.3);
-            background: #f39c12;
+            filter: drop-shadow(0 0 20px rgba(243, 156, 18, 0.5));
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .coin-btn img {
+        .coin-btn svg {
             width: 100%;
             height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
             pointer-events: none;
         }
         .coin-btn:active {
@@ -68,7 +70,7 @@
         }
 
         .energy-box {
-            margin-top: 20px;
+            margin-top: 25px;
             font-size: 18px;
             color: #66fcf1;
             font-weight: 600;
@@ -107,11 +109,6 @@
             font-weight: bold;
             cursor: pointer;
         }
-        .card button:disabled {
-            background: #555;
-            color: #888;
-            cursor: not-allowed;
-        }
 
         .nav-bar {
             width: 100%;
@@ -143,13 +140,32 @@
     <div id="tab-tap" class="tab-content active-tab">
         <div class="tap-area">
             <div class="coin-btn" onclick="tapCoin(event)">
-                <img id="main-coin-img" src="https://img.freepik.com/free-vector/golden-coin-design_1017-7428.jpg" alt="Coin">
+                <!-- pure code-based Golden Coin SVG -->
+                <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <radialGradient id="gold" cx="50%" cy="50%" r="50%" fx="30%" fy="30%">
+                            <stop offset="0%" stop-color="#ffe57f" />
+                            <stop offset="50%" stop-color="#ffb300" />
+                            <stop offset="100%" stop-color="#ff6f00" />
+                        </radialGradient>
+                        <linearGradient id="rim" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#ffecb3" />
+                            <stop offset="50%" stop-color="#ffa000" />
+                            <stop offset="100%" stop-color="#b78103" />
+                        </linearGradient>
+                    </defs>
+                    <circle cx="100" cy="100" r="95" fill="url(#rim)" stroke="#d7ccc8" stroke-width="2"/>
+                    <circle cx="100" cy="100" r="82" fill="url(#gold)" stroke="#ff8f00" stroke-width="4"/>
+                    <circle cx="100" cy="100" r="72" fill="none" stroke="#ffe082" stroke-width="2" stroke-dasharray="6,4"/>
+                    <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" font-size="34" font-weight="bold" fill="#000" opacity="0.15">FOMO</text>
+                    <text x="50%" y="52%" dominant-baseline="middle" text-anchor="middle" font-size="34" font-weight="bold" fill="#ffffff" style="text-shadow: 1px 1px 2px #000;">FOMO</text>
+                </svg>
             </div>
             <div class="energy-box">⚡ Energy: <span id="energy">1000</span> / <span id="max-energy">1000</span></div>
         </div>
     </div>
 
-    <!-- Boost / Upgrade Tab -->
+    <!-- Boost Tab -->
     <div id="tab-boost" class="tab-content">
         <h3 style="margin-bottom: 15px; color: #f39c12;">Upgrades & Boosters</h3>
         
@@ -188,17 +204,11 @@
         
         let lastReset = localStorage.getItem('aifomo_reset') ? parseInt(localStorage.getItem('aifomo_reset')) : Date.now();
 
-        // 24 Hours Energy Auto-Reset
         if (Date.now() - lastReset > 24 * 60 * 60 * 1000) {
             energy = maxEnergy;
             localStorage.setItem('aifomo_e', energy);
             localStorage.setItem('aifomo_reset', Date.now());
         }
-
-        // Try local image if available
-        const localImg = new Image();
-        localImg.src = '13558.png';
-        localImg.onload = () => { document.getElementById('main-coin-img').src = '13558.png'; };
 
         function updateUI() {
             document.getElementById('balance').innerText = balance.toLocaleString();
