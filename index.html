@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AiFOMO Coin Tap Game</title>
+    <title>Ai FOMO Coin</title>
     <style>
         * {
             box-sizing: border-box;
@@ -11,9 +11,9 @@
             padding: 0;
         }
         body {
-            background-color: #0b0c10;
+            background-color: #0d0f12;
             color: #ffffff;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -23,97 +23,55 @@
             overflow: hidden;
         }
 
-        #join-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(11, 12, 16, 0.96);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            padding: 20px;
-            text-align: center;
-        }
-        #join-overlay h2 {
-            color: #f39c12;
-            margin-bottom: 10px;
-        }
-        #join-overlay p {
-            color: #cccccc;
-            margin-bottom: 20px;
-            font-size: 14px;
-        }
-        .btn-join {
-            background: #f39c12;
-            color: #000;
-            padding: 12px 25px;
-            border-radius: 25px;
-            font-weight: bold;
-            text-decoration: none;
-            margin-bottom: 15px;
-            display: inline-block;
-        }
-        .btn-check {
-            background: #1f2833;
-            color: #66fcf1;
-            border: 1px solid #66fcf1;
-            padding: 10px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-        }
-
         .header {
-            margin-top: 20px;
+            margin-top: 25px;
             text-align: center;
         }
         .header h1 {
             color: #f39c12;
-            font-size: 24px;
+            font-size: 22px;
+            letter-spacing: 1px;
         }
         .balance-card {
-            font-size: 32px;
-            font-weight: bold;
+            font-size: 40px;
+            font-weight: 800;
             color: #ffd700;
-            margin-top: 10px;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-        }
-        .balance-label {
-            font-size: 14px;
-            color: #aaa;
+            margin-top: 5px;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
         }
 
-        .tap-container {
+        .tap-area {
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
+            flex: 1;
         }
         .coin-btn {
-            width: 210px;
-            height: 210px;
+            width: 220px;
+            height: 220px;
             border-radius: 50%;
             cursor: pointer;
-            transition: transform 0.08s ease;
-            filter: drop-shadow(0 0 15px rgba(243, 156, 18, 0.4));
+            transition: transform 0.05s ease-in-out;
+            box-shadow: 0 0 35px rgba(243, 156, 18, 0.3);
+            background: #f39c12;
         }
         .coin-btn img {
             width: 100%;
             height: 100%;
             border-radius: 50%;
             object-fit: cover;
+            pointer-events: none;
         }
         .coin-btn:active {
             transform: scale(0.92);
         }
 
-        .energy-info {
-            margin-top: 15px;
-            font-size: 16px;
+        .energy-box {
+            margin-top: 20px;
+            font-size: 18px;
             color: #66fcf1;
-            font-weight: bold;
+            font-weight: 600;
         }
 
         .tab-content {
@@ -129,151 +87,184 @@
             align-items: center;
         }
 
-        .task-card {
-            background: #1f2833;
+        .card {
+            background: #1a1e24;
             width: 100%;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 10px;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border: 1px solid #2c323b;
         }
-        .task-card button {
+        .card button {
             background: #f39c12;
+            color: #000;
             border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
+            padding: 10px 16px;
+            border-radius: 8px;
             font-weight: bold;
             cursor: pointer;
+        }
+        .card button:disabled {
+            background: #555;
+            color: #888;
+            cursor: not-allowed;
         }
 
         .nav-bar {
             width: 100%;
-            background: #1f2833;
+            background: #14171c;
             display: flex;
             justify-content: space-around;
-            padding: 12px 0;
-            border-top: 1px solid #45a29e;
+            padding: 14px 0;
+            border-top: 1px solid #2c323b;
         }
         .nav-item {
-            color: #c5c6c7;
-            text-align: center;
+            color: #8a94a6;
             font-size: 14px;
+            font-weight: 600;
             cursor: pointer;
         }
         .nav-item.active {
             color: #f39c12;
-            font-weight: bold;
         }
     </style>
 </head>
 <body>
 
-    <!-- Join Community Section -->
-    <div id="join-overlay">
-        <h2>Join Our Community</h2>
-        <p>You must join our official channel to use the AiFOMO Mini-App.</p>
-        <!-- আপনার চ্যানেলের লিংকটি নিচে বসানো হয়েছে -->
-        <a href="https://t.me/telegram" target="_blank" class="btn-join">Join Channel</a>
-        <button class="btn-check" onclick="verifyJoin()">I Joined</button>
-    </div>
-
-    <!-- Main Game Section -->
     <div class="header">
         <h1>Ai FOMO Coin</h1>
-        <div class="balance-label">Coin Balance</div>
-        <div class="balance-card">⚡ <span id="balance">0</span></div>
+        <div class="balance-card"><span id="balance">0</span></div>
     </div>
 
+    <!-- Tap Tab -->
     <div id="tab-tap" class="tab-content active-tab">
-        <div class="tap-container">
-            <div class="coin-btn" onclick="tapCoin()">
-                <img src="https://raw.githubusercontent.com/Taigar467261/Rj-imran/main/13558.png" onerror="this.src='https://raw.githubusercontent.com/Taigar467261/Rj-imran/main/coin.png'" alt="Ai Fomo Coin">
+        <div class="tap-area">
+            <div class="coin-btn" onclick="tapCoin(event)">
+                <img id="main-coin-img" src="https://img.freepik.com/free-vector/golden-coin-design_1017-7428.jpg" alt="Coin">
             </div>
-            <div class="energy-info">Energy: <span id="energy">1000</span> / 1000</div>
+            <div class="energy-box">⚡ Energy: <span id="energy">1000</span> / <span id="max-energy">1000</span></div>
         </div>
     </div>
 
-    <div id="tab-tasks" class="tab-content">
-        <h2 style="margin-bottom: 15px; color: #f39c12;">Earn Extra Coins</h2>
-        <div class="task-card">
+    <!-- Boost / Upgrade Tab -->
+    <div id="tab-boost" class="tab-content">
+        <h3 style="margin-bottom: 15px; color: #f39c12;">Upgrades & Boosters</h3>
+        
+        <div class="card">
             <div>
-                <h4>Follow Twitter</h4>
-                <p style="font-size: 12px; color: #aaa;">+500 Coins</p>
+                <h4>Multitap</h4>
+                <p style="font-size: 12px; color: #aaa;">+1 per tap (Lvl <span id="tap-lvl">1</span>)</p>
+                <p style="font-size: 13px; color: #ffd700;">Cost: <span id="tap-cost">100</span> Coins</p>
             </div>
-            <button onclick="doTask(500, 'https://twitter.com')">Claim</button>
+            <button onclick="buyMultitap()">Upgrade</button>
         </div>
-        <div class="task-card">
+
+        <div class="card">
             <div>
-                <h4>Subscribe YouTube</h4>
-                <p style="font-size: 12px; color: #aaa;">+1000 Coins</p>
+                <h4>Energy Limit</h4>
+                <p style="font-size: 12px; color: #aaa;">+500 Max Energy (Lvl <span id="energy-lvl">1</span>)</p>
+                <p style="font-size: 13px; color: #ffd700;">Cost: <span id="energy-cost">200</span> Coins</p>
             </div>
-            <button onclick="doTask(1000, 'https://youtube.com')">Claim</button>
+            <button onclick="buyEnergyLimit()">Upgrade</button>
         </div>
     </div>
 
     <div class="nav-bar">
-        <div class="nav-item active" onclick="switchTab('tap')">👆 Tap</div>
-        <div class="nav-item" onclick="switchTab('tasks')">📋 Tasks</div>
+        <div class="nav-item active" onclick="switchTab('tap', this)">👆 Tap</div>
+        <div class="nav-item" onclick="switchTab('boost', this)">⚡ Boost</div>
     </div>
 
     <script>
-        let balance = localStorage.getItem('aifomo_balance') ? parseInt(localStorage.getItem('aifomo_balance')) : 0;
-        let energy = localStorage.getItem('aifomo_energy') !== null ? parseInt(localStorage.getItem('aifomo_energy')) : 1000;
-        let lastReset = localStorage.getItem('aifomo_last_reset') ? parseInt(localStorage.getItem('aifomo_last_reset')) : Date.now();
+        let balance = localStorage.getItem('aifomo_bal') ? parseInt(localStorage.getItem('aifomo_bal')) : 0;
+        let tapPower = localStorage.getItem('aifomo_power') ? parseInt(localStorage.getItem('aifomo_power')) : 1;
+        let tapLvl = localStorage.getItem('aifomo_tap_lvl') ? parseInt(localStorage.getItem('aifomo_tap_lvl')) : 1;
+        
+        let maxEnergy = localStorage.getItem('aifomo_max_e') ? parseInt(localStorage.getItem('aifomo_max_e')) : 1000;
+        let energyLvl = localStorage.getItem('aifomo_e_lvl') ? parseInt(localStorage.getItem('aifomo_e_lvl')) : 1;
+        let energy = localStorage.getItem('aifomo_e') !== null ? parseInt(localStorage.getItem('aifomo_e')) : maxEnergy;
+        
+        let lastReset = localStorage.getItem('aifomo_reset') ? parseInt(localStorage.getItem('aifomo_reset')) : Date.now();
 
+        // 24 Hours Energy Auto-Reset
         if (Date.now() - lastReset > 24 * 60 * 60 * 1000) {
-            energy = 1000;
-            localStorage.setItem('aifomo_energy', energy);
-            localStorage.setItem('aifomo_last_reset', Date.now());
+            energy = maxEnergy;
+            localStorage.setItem('aifomo_e', energy);
+            localStorage.setItem('aifomo_reset', Date.now());
         }
 
-        document.getElementById('balance').innerText = balance;
-        document.getElementById('energy').innerText = energy;
+        // Try local image if available
+        const localImg = new Image();
+        localImg.src = '13558.png';
+        localImg.onload = () => { document.getElementById('main-coin-img').src = '13558.png'; };
 
-        if(localStorage.getItem('aifomo_joined') === 'true') {
-            document.getElementById('join-overlay').style.display = 'none';
+        function updateUI() {
+            document.getElementById('balance').innerText = balance.toLocaleString();
+            document.getElementById('energy').innerText = energy;
+            document.getElementById('max-energy').innerText = maxEnergy;
+            
+            document.getElementById('tap-lvl').innerText = tapLvl;
+            document.getElementById('tap-cost').innerText = tapLvl * 100;
+
+            document.getElementById('energy-lvl').innerText = energyLvl;
+            document.getElementById('energy-cost').innerText = energyLvl * 200;
         }
 
-        function verifyJoin() {
-            localStorage.setItem('aifomo_joined', 'true');
-            document.getElementById('join-overlay').style.display = 'none';
-        }
-
-        function tapCoin() {
-            if (energy > 0) {
-                balance++;
-                energy--;
-                document.getElementById('balance').innerText = balance;
-                document.getElementById('energy').innerText = energy;
-                localStorage.setItem('aifomo_balance', balance);
-                localStorage.setItem('aifomo_energy', energy);
+        function tapCoin(e) {
+            if (energy >= tapPower) {
+                balance += tapPower;
+                energy -= tapPower;
+                localStorage.setItem('aifomo_bal', balance);
+                localStorage.setItem('aifomo_e', energy);
+                updateUI();
             } else {
-                alert("Daily energy limit reached! Wait 24 hours.");
+                alert("Daily energy limit reached! Wait for reset.");
             }
         }
 
-        function switchTab(tab) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active-tab'));
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-
-            if(tab === 'tap') {
-                document.getElementById('tab-tap').classList.add('active-tab');
-                event.currentTarget.classList.add('active');
-            } else if(tab === 'tasks') {
-                document.getElementById('tab-tasks').classList.add('active-tab');
-                event.currentTarget.classList.add('active');
+        function buyMultitap() {
+            let cost = tapLvl * 100;
+            if (balance >= cost) {
+                balance -= cost;
+                tapPower += 1;
+                tapLvl += 1;
+                localStorage.setItem('aifomo_bal', balance);
+                localStorage.setItem('aifomo_power', tapPower);
+                localStorage.setItem('aifomo_tap_lvl', tapLvl);
+                updateUI();
+            } else {
+                alert("Not enough coins!");
             }
         }
 
-        function doTask(reward, link) {
-            window.open(link, '_blank');
-            balance += reward;
-            document.getElementById('balance').innerText = balance;
-            localStorage.setItem('aifomo_balance', balance);
-            alert("Reward claimed: +" + reward + " Coins!");
+        function buyEnergyLimit() {
+            let cost = energyLvl * 200;
+            if (balance >= cost) {
+                balance -= cost;
+                maxEnergy += 500;
+                energy += 500;
+                energyLvl += 1;
+                localStorage.setItem('aifomo_bal', balance);
+                localStorage.setItem('aifomo_max_e', maxEnergy);
+                localStorage.setItem('aifomo_e', energy);
+                localStorage.setItem('aifomo_e_lvl', energyLvl);
+                updateUI();
+            } else {
+                alert("Not enough coins!");
+            }
         }
+
+        function switchTab(tab, el) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active-tab'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+            document.getElementById('tab-' + tab).classList.add('active-tab');
+            el.classList.add('active');
+        }
+
+        updateUI();
     </script>
 </body>
 </html>
